@@ -3,10 +3,9 @@ var inquirer = require('inquirer');
 var Word = require('./Word')
 
 var wordList = ['WEBSITE', 'JAVASCRIPT', 'PROGRAMMER', 'DATABASE', 'JQUERY', 'ELEMENT'];
-
+var gameCount = 10;
 var Hangman = function (){
     this.startGame = function () {
-        this.guessCount = 10;
         this.nextWord();
         gamePrompt();
     }
@@ -16,29 +15,7 @@ var Hangman = function (){
         this.word = new Word(wordInPlay);
         this.word.build();
     }
-    // this.gamePrompt = function () {
-    //     inquirer.prompt([
-
-    //         {
-    //             type: "input",
-    //             name: "playerGuess",
-    //             message: "Choose a letter"
-    //         }
-
-    //     ]).then(function (answer) {
-    //         console.log(answer.playerGuess);
-    //         this.gamePrompt.word.plyGuess(answer.playerGuess);
-    //         this.word.returnValue().join(' ');
-    //         this.guessCount--;
-    //         console.log(guessCount);
-    //         // if (this.word.plyGuess(answer).toUpperCase() === "POST") {
-    //         //     postAuction();
-    //         // }
-    //         // else {
-    //         //     bidAuction();
-    //         // }
-    //     });
-    // }
+    
 }
 
 var player = new Hangman();
@@ -55,17 +32,15 @@ function gamePrompt() {
         }
 
     ]).then(function (answer) {
-        console.log(answer.playerGuess);
-        player.word.plyGuess(answer.playerGuess);
-        player.word.returnValue().join(' ');
-        // this.guessCount--;
-
-        // if (this.word.plyGuess(answer).toUpperCase() === "POST") {
-        //     postAuction();
-        // }
-        // else {
-        //     bidAuction();
-        // }
+        var ltrGues = answer.playerGuess.toUpperCase();
+        player.word.plyGuess(ltrGues);
+        console.log(player.word.returnValue().join(' '));
+        gameCount--;
+        console.log("Guesses letf: " + gameCount);
+        if (gameCount > 0){
+            gamePrompt();
+        }
+     
     });
 }
 
